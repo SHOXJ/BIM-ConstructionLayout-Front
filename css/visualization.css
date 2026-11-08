@@ -1,2 +1,269 @@
 /* 模块三：三维容器、时间轴、分析面板。替换渲染器时保留外层容器。 */
-.viewer-layout{display:grid;grid-template-columns:1fr 300px;gap:20px}.viewer-panel{padding:0;overflow:hidden}.viewer-panel>.panel-title{padding:19px 24px;margin:0}.model-viewer{min-height:340px;position:relative;display:grid;place-items:center;background-color:#e9eef1;background-image:linear-gradient(#d6dfe555 1px,transparent 1px),linear-gradient(90deg,#d6dfe555 1px,transparent 1px);background-size:28px 28px}.viewer-empty{text-align:center;padding:40px 20px 65px;color:#7b8c98}.viewer-empty>span{font-size:55px;font-weight:200}.viewer-empty h3{font-weight:500;font-size:15px}.viewer-empty p{font-size:11px;margin-top:10px}.viewer-legend{position:absolute;bottom:16px;left:20px;display:flex;gap:20px;font-size:10px;color:#65727c}.legend-dot{display:inline-block;width:7px;height:7px;margin-right:6px}.legend-dot.pending{background:#b7c5cf}.legend-dot.active{background:var(--accent)}.legend-dot.done{background:#497c78}.playback-controls{display:flex;align-items:center;gap:10px;padding:20px}.timeline{flex:1;min-width:60px;padding:0 8px}.timeline span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.timeline input{width:100%;accent-color:var(--accent);margin:0}.speed-label{font-size:9px}.speed-label select{margin:0;padding:4px;min-height:30px}.insights{margin:0}.insights>div{border-bottom:1px solid var(--line);padding:16px 0;display:flex;justify-content:space-between;gap:15px}.insights dt{font-size:11px;color:var(--muted)}.insights dd{margin:0;font-size:12px;font-weight:600}.analysis-placeholder{margin-top:25px;font-size:12px}.analysis-placeholder ul{padding-left:18px;color:var(--muted);font-size:11px;line-height:2.3}.future-slot{display:flex;align-items:center;gap:25px;border:1px dashed #ced7de;border-radius:4px;padding:20px 24px;margin-top:20px;font-size:13px}.future-slot p{font-size:11px;color:var(--muted)}.future-slot .small-label{margin-left:auto}.demo-building{width:270px;transform:skewY(-7deg);padding:40px 0 55px}.demo-stamp{display:block;color:#6e7c86;font-size:10px;text-align:right;margin-bottom:12px}.demo-floor{height:42px;margin-top:7px;border:1px solid #99adbc;background:repeating-linear-gradient(90deg,#c9d5de 0,#c9d5de 4px,transparent 4px,transparent 48px),#e1e7eb;color:#708392;text-align:right;padding:9px 14px;font-size:10px;transition:background .2s}.demo-floor.in-progress{background-color:#eec7cd;border-color:var(--accent);color:#9e2838}.demo-floor.complete{background-color:#a9c7c2;border-color:#497c78;color:#2e645f}@media(max-width:1000px){.viewer-layout{grid-template-columns:1fr 260px}}@media(max-width:760px){.viewer-layout{grid-template-columns:1fr}.playback-controls{padding:12px;flex-wrap:wrap}.timeline{min-width:90px}.future-slot{flex-wrap:wrap;gap:8px 20px}.demo-building{width:220px}}
+
+/* 模型视窗布局 */
+.viewer-layout {
+  display:grid;
+  grid-template-columns:1fr 300px;
+  gap:20px
+}
+
+.viewer-panel {
+  padding:0;
+  overflow:hidden
+}
+
+.viewer-panel>.panel-title {
+  padding:19px 24px;
+  margin:0
+}
+
+.model-viewer {
+  min-height:340px;
+  position:relative;
+  display:grid;
+  place-items:center;
+  background-color:#e9eef1;
+  background-image:linear-gradient(#d6dfe555 1px,transparent 1px),linear-gradient(90deg,#d6dfe555 1px,transparent 1px);
+  background-size:28px 28px
+}
+
+.viewer-empty {
+  text-align:center;
+  padding:40px 20px 65px;
+  color:#7b8c98
+}
+
+.viewer-empty>span {
+  font-size:55px;
+  font-weight:200
+}
+
+.viewer-empty h3 {
+  font-weight:500;
+  font-size:15px
+}
+
+.viewer-empty p {
+  font-size:11px;
+  margin-top:10px
+}
+
+/* 施工状态图例 */
+.viewer-legend {
+  position:absolute;
+  bottom:16px;
+  left:20px;
+  display:flex;
+  gap:20px;
+  font-size:10px;
+  color:#65727c
+}
+
+.legend-dot {
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:6px
+}
+
+.legend-dot.pending {
+  background:#b7c5cf
+}
+
+.legend-dot.active {
+  background:var(--accent)
+}
+
+.legend-dot.done {
+  background:#497c78
+}
+
+/* 播放控件与时间轴 */
+.playback-controls {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px
+}
+
+.timeline {
+  flex:1;
+  min-width:60px;
+  padding:0 8px
+}
+
+.timeline span {
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  margin-bottom:4px
+}
+
+.timeline input {
+  width:100%;
+  accent-color:var(--accent);
+  margin:0
+}
+
+.speed-label {
+  font-size:9px
+}
+
+.speed-label select {
+  margin:0;
+  padding:4px;
+  min-height:30px
+}
+
+/* 分析面板与后续图表区域 */
+.insights {
+  margin:0
+}
+
+.insights>div {
+  border-bottom:1px solid var(--line);
+  padding:16px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:15px
+}
+
+.insights dt {
+  font-size:11px;
+  color:var(--muted)
+}
+
+.insights dd {
+  margin:0;
+  font-size:12px;
+  font-weight:600
+}
+
+.analysis-placeholder {
+  margin-top:25px;
+  font-size:12px
+}
+
+.analysis-placeholder ul {
+  padding-left:18px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:2.3
+}
+
+.future-slot {
+  display:flex;
+  align-items:center;
+  gap:25px;
+  border:1px dashed #ced7de;
+  border-radius:4px;
+  padding:20px 24px;
+  margin-top:20px;
+  font-size:13px
+}
+
+.future-slot p {
+  font-size:11px;
+  color:var(--muted)
+}
+
+.future-slot .small-label {
+  margin-left:auto
+}
+
+/* 示例楼层模型 */
+.demo-building {
+  width:270px;
+  transform:skewY(-7deg);
+  padding:40px 0 55px
+}
+
+.demo-stamp {
+  display:block;
+  color:#6e7c86;
+  font-size:10px;
+  text-align:right;
+  margin-bottom:12px
+}
+
+.demo-floor {
+  height:42px;
+  margin-top:7px;
+  border:1px solid #99adbc;
+  background:repeating-linear-gradient(90deg,#c9d5de 0,#c9d5de 4px,transparent 4px,transparent 48px),#e1e7eb;
+  color:#708392;
+  text-align:right;
+  padding:9px 14px;
+  font-size:10px;
+  transition:background .2s
+}
+
+.demo-floor.in-progress {
+  background-color:#eec7cd;
+  border-color:var(--accent);
+  color:#9e2838
+}
+
+.demo-floor.complete {
+  background-color:#a9c7c2;
+  border-color:#497c78;
+  color:#2e645f
+}
+
+/* 响应式布局 */
+@media(max-width:1000px) {
+  .viewer-layout {
+    grid-template-columns:1fr 260px
+  }
+}
+
+@media(max-width:760px) {
+  .viewer-layout {
+    grid-template-columns:1fr
+  }
+  .playback-controls {
+    padding:12px;
+    flex-wrap:wrap
+  }
+  .timeline {
+    min-width:90px
+  }
+  .future-slot {
+    flex-wrap:wrap;
+    gap:8px 20px
+  }
+  .demo-building {
+    width:220px
+  }
+}
+
+/* 提高视窗控件与分析文字的可读性 */
+.viewer-empty h3 {
+  font-size:19px
+}
+
+.viewer-empty p,.viewer-legend,.timeline span,.insights dt,.analysis-placeholder ul,.future-slot p,.demo-stamp,.demo-floor {
+  font-size:13px
+}
+
+.speed-label {
+  font-size:13px
+}
+
+.insights dd,.analysis-placeholder {
+  font-size:15px
+}
+
+.future-slot {
+  font-size:15px
+}
+
+.viewer-legend {
+  flex-wrap:wrap;
+  gap:10px 16px
+}
+
+.demo-floor {
+  height:auto;
+  min-height:44px
+}

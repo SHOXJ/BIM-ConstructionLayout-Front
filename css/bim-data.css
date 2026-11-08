@@ -1,2 +1,147 @@
 /* 模块一：模型导入、属性表、施工数据映射。 */
-.data-layout{display:grid;grid-template-columns:340px 1fr;gap:20px}.upload-box{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:23px 12px;background:#fafbfc;border:1px dashed #c6d0d8;border-radius:4px;text-align:center;cursor:pointer}.upload-box:hover{border-color:var(--accent)}.upload-box:focus-within{outline:3px solid #e98a9a}.upload-box input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.upload-box>span:not(.button):not(.upload-icon){font-size:10px;color:var(--muted)}.upload-icon{font-size:28px;line-height:1.1;color:var(--accent)}.status{font-size:11px;color:var(--muted);margin:12px 0 20px;overflow-wrap:anywhere;min-height:20px}.data-stats{display:grid;grid-template-columns:repeat(3,1fr);background:#f7f8fa;margin-bottom:24px;padding:17px 0}.data-stats>div{padding:0 20px}.data-stats>div+div{border-left:1px solid var(--line)}.data-stats span{display:block;font-size:11px;color:var(--muted)}.data-stats strong{display:block;font-size:25px;font-weight:500;margin-top:3px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:11px}th{text-align:left;font-weight:500;color:#64717b;background:#f7f8fa;padding:12px}td{padding:12px;border-bottom:1px solid var(--line)}td .empty-state{white-space:normal}@media(max-width:1000px){.data-layout{grid-template-columns:300px 1fr}}@media(max-width:760px){.data-layout{grid-template-columns:1fr}}
+
+/* 导入区和预览区布局 */
+.data-layout {
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:20px
+}
+
+/* 文件上传区域 */
+.upload-box {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  padding:23px 12px;
+  background:#fafbfc;
+  border:1px dashed #c6d0d8;
+  border-radius:4px;
+  text-align:center;
+  cursor:pointer
+}
+
+.upload-box:hover {
+  border-color:var(--accent)
+}
+
+.upload-box:focus-within {
+  outline:3px solid #e98a9a
+}
+
+.upload-box input {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer
+}
+
+.upload-box>span:not(.button):not(.upload-icon) {
+  font-size:10px;
+  color:var(--muted)
+}
+
+.upload-icon {
+  font-size:28px;
+  line-height:1.1;
+  color:var(--accent)
+}
+
+.status {
+  font-size:11px;
+  color:var(--muted);
+  margin:12px 0 20px;
+  overflow-wrap:anywhere;
+  min-height:20px
+}
+
+/* 数据统计与表格 */
+.data-stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:#f7f8fa;
+  margin-bottom:24px;
+  padding:17px 0
+}
+
+.data-stats>div {
+  padding:0 20px
+}
+
+.data-stats>div+div {
+  border-left:1px solid var(--line)
+}
+
+.data-stats span {
+  display:block;
+  font-size:11px;
+  color:var(--muted)
+}
+
+.data-stats strong {
+  display:block;
+  font-size:25px;
+  font-weight:500;
+  margin-top:3px
+}
+
+.table-scroll {
+  overflow-x:auto
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  white-space:nowrap;
+  font-size:11px
+}
+
+th {
+  text-align:left;
+  font-weight:500;
+  color:#64717b;
+  background:#f7f8fa;
+  padding:12px
+}
+
+td {
+  padding:12px;
+  border-bottom:1px solid var(--line)
+}
+
+td .empty-state {
+  white-space:normal
+}
+
+/* 响应式布局 */
+@media(max-width:1000px) {
+  .data-layout {
+    grid-template-columns:300px 1fr
+  }
+}
+
+@media(max-width:760px) {
+  .data-layout {
+    grid-template-columns:1fr
+  }
+}
+
+/* 提高数据标签的可读性 */
+.upload-box>span:not(.button):not(.upload-icon) {
+  font-size:13px
+}
+
+.status,.data-stats span,table {
+  font-size:13px
+}
+
+.data-stats>div {
+  padding:0 14px
+}
+
+th,td {
+  padding:13px 10px
+}

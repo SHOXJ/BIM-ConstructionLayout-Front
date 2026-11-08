@@ -1,20 +1,435 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="BIM施工数据转换、施工方案生成与选择、施工方案可视化分析的可扩展前端框架。">
-<title>基于BIM模型的施工方案生成与可视化</title>
-<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="css/bim-data.css"><link rel="stylesheet" href="css/planning.css"><link rel="stylesheet" href="css/visualization.css">
-<script defer src="js/config.js"></script><script defer src="js/services/api.js"></script><script defer src="js/modules/bim-data.js"></script><script defer src="js/modules/planning.js"></script><script defer src="js/modules/visualization.js"></script><script defer src="app.js"></script>
-</head>
-<body>
-<a class="skip" href="#main">跳至主要内容</a>
-<header class="header"><a class="brand" href="#hero"><span class="brand-icon">B</span><span>BIM<span class="brand-light"> / CONSTRUCTION</span></span></a><button class="menu-toggle" aria-expanded="false" aria-controls="navigation" aria-label="展开目录">☰</button><nav id="navigation" aria-label="模块目录"><a href="#bim-data">BIM数据到施工数据</a><a href="#planning">施工方案生成与方案选择</a><a href="#visualization">施工方案可视化分析</a></nav><span class="version"><i></i> 基础架构 v1.0</span></header>
-<main id="main">
-<section id="hero" class="hero"><div class="hero-grid"></div><div class="hero-copy"><p class="eyebrow">BIM-BASED CONSTRUCTION PLANNING</p><h1>基于BIM模型的<br>施工方案生成<br><span>与可视化</span></h1><p class="hero-description">从模型数据到施工决策，让施工过程清晰可见。<br>连接数据转换、方案选择与施工模拟的统一工作空间。</p><div class="hero-actions"><a class="button primary" href="#bim-data">进入工作空间 <span>↗</span></a><a class="text-link" href="#modules">查看功能目录 ↓</a></div><div class="hero-meta"><span>01 数据准备</span><span>02 方案决策</span><span>03 可视分析</span></div></div><div class="hero-model"><div class="model-caption"><span>CONSTRUCTION MODEL</span><span>概念模型 / 非真实BIM数据</span></div><svg class="building" viewBox="0 0 600 460" role="img" aria-label="建筑结构轴测概念图"><defs><pattern id="grid" width="40" height="24" patternUnits="userSpaceOnUse" patternTransform="skewY(-25)"><path d="M40 0H0V24" fill="none" stroke="#52636f" stroke-width=".4"/></pattern></defs><path d="M20 320L310 170 580 315 290 460Z" fill="url(#grid)"/><g fill="none" stroke="#71828c" stroke-width="1"><path d="M110 330L295 430 498 321M110 330V160L310 55 498 155V321M310 55V225M110 160L295 260 498 155M295 260V430"/></g><g id="hero-slabs"></g><path d="M310 35V15M300 25H320M90 348H70M80 338V358" stroke="#e7515c"/><text x="399" y="405" fill="#9aaab5" font-size="11" letter-spacing="2">STRUCTURE / 04 LEVELS</text></svg><div class="model-foot"><span><i class="dot"></i> 模型 · 计划 · 过程</span><span>概念示意图</span></div></div></section>
-<section id="modules" class="module-directory wrapper"><div class="section-top"><p class="eyebrow dark">WORKSPACE DIRECTORY</p><p class="muted">按流程进入对应模块</p></div><div class="directory-grid"><a href="#bim-data"><span class="step">01</span><h2>BIM数据到施工数据</h2><p>模型导入 / 构件提取 / 工序映射</p><span class="arrow">↗</span></a><a href="#planning"><span class="step">02</span><h2>施工方案生成与方案选择</h2><p>参数配置 / 方案生成 / 多方案比较</p><span class="arrow">↗</span></a><a href="#visualization"><span class="step">03</span><h2>施工方案可视化分析</h2><p>进度展示 / 施工动画 / 结果分析</p><span class="arrow">↗</span></a></div></section>
-<section id="bim-data" class="workspace-section wrapper"><div class="section-heading"><div><p class="eyebrow dark">01 / DATA PREPARATION</p><h2>BIM数据到施工数据</h2><p>整理模型构件信息，建立施工任务的数据基础。</p></div><span class="badge">数据解析待接入</span></div><div class="data-layout"><article class="panel"><div class="panel-title"><h3>模型文件</h3><span class="small-label">INPUT</span></div><label class="upload-box" for="model-file"><span class="upload-icon">↑</span><strong>选择 BIM 模型文件</strong><span>预留 IFC 模型入口 · 当前仅记录文件信息</span><span class="button secondary">浏览文件</span><input id="model-file" type="file" accept=".ifc" aria-describedby="file-status"></label><p id="file-status" class="status" role="status">尚未选择文件</p><div class="field-grid"><label>构件分组<select id="grouping"><option value="storey">按楼层</option><option value="zone">按施工区域</option><option value="type">按构件类型</option></select></label><label>工程量单位<select id="quantity-unit"><option value="m3">体积 · m³</option><option value="m2">面积 · m²</option><option value="count">数量 · 件</option></select></label></div><button class="button disabled-action" disabled title="需接入IFC解析器或后端服务">解析并转换数据（待接入）</button></article><article class="panel"><div class="panel-title"><h3>施工数据预览</h3><span class="small-label">OUTPUT</span></div><div class="data-stats"><div><span>构件数量</span><strong>—</strong></div><div><span>施工分区</span><strong>—</strong></div><div><span>任务数量</span><strong>—</strong></div></div><div class="table-scroll"><table><thead><tr><th>构件编号</th><th>楼层 / 区域</th><th>类型</th><th>工程量</th><th>施工工序</th></tr></thead><tbody id="construction-data-body"><tr><td colspan="5"><div class="empty-state"><span>▧</span><strong>等待施工数据</strong><p>模型解析后，在此查看构件属性与工序映射结果。</p></div></td></tr></tbody></table></div><div class="panel-note">预留：属性校验、工程量统计、构件与施工任务关联、数据导出。</div></article></div></section>
-<section id="planning" class="workspace-section wrapper"><div class="section-heading"><div><p class="eyebrow dark">02 / SCHEME PLANNING</p><h2>施工方案生成与方案选择</h2><p>明确施工约束，比较候选方案并确定实施方案。</p></div><span class="badge">方案生成待接入</span></div><div class="planning-layout"><article class="panel"><div class="panel-title"><h3>方案参数</h3><span class="small-label">CONSTRAINTS</span></div><div class="form-stack"><label>计划开始日期<input id="start-date" type="date"></label><label>目标工期（天）<input id="target-days" type="number" min="1" step="1" placeholder="例如：120"></label><label>优先目标<select id="priority"><option value="balanced">综合平衡</option><option value="duration">工期优先</option><option value="cost">成本优先</option><option value="space">空间利用优先</option></select></label><label>补充约束<textarea id="constraints" rows="3" placeholder="例如：分区流水施工、设备数量限制等"></textarea></label></div><button class="button disabled-action" disabled>生成候选方案（待接入）</button><p class="panel-note">预留规则算法、优化算法或后端模型的生成接口。</p></article><article class="panel"><div class="panel-title"><h3>候选方案比较</h3><button id="load-demo" class="button secondary compact">加载界面示例</button></div><p class="muted">示例仅用于体验方案选择与动画联动，不参与真实施工决策。</p><div id="scheme-list" class="scheme-list"><div class="empty-state"><span>▤</span><strong>暂无候选方案</strong><p>方案生成后，将展示工期、成本和资源配置等比较指标。</p></div></div><div class="selection-summary"><span id="selected-scheme" role="status">当前未选择方案</span><a href="#visualization" class="text-link">查看可视化 ↓</a></div></article></div></section>
-<section id="visualization" class="workspace-section wrapper"><div class="section-heading"><div><p class="eyebrow dark">03 / VISUAL ANALYSIS</p><h2>施工方案可视化分析</h2><p>在同一时间轴上查看模型状态与计划进度。</p></div><span class="badge">模型渲染待接入</span></div><div class="viewer-layout"><article class="panel viewer-panel"><div class="panel-title"><h3>施工过程视窗</h3><span id="viewer-label" class="small-label">未选择方案</span></div><div id="model-viewer" class="model-viewer" aria-label="施工模型可视化容器"><div id="viewer-empty" class="viewer-empty"><span>◇</span><h3>施工动画展示区域</h3><p>预留三维模型加载、构件显隐与施工状态着色。</p></div><div id="demo-building" class="demo-building" hidden><span class="demo-stamp">界面演示 · 非真实模型</span><div class="demo-floor" data-floor="4">04 / 四层结构</div><div class="demo-floor" data-floor="3">03 / 三层结构</div><div class="demo-floor" data-floor="2">02 / 二层结构</div><div class="demo-floor" data-floor="1">01 / 一层结构</div></div><div class="viewer-legend"><span><i class="legend-dot pending"></i>未施工</span><span><i class="legend-dot active"></i>施工中</span><span><i class="legend-dot done"></i>已完成</span></div></div><div class="playback-controls"><button id="play" class="button primary compact" disabled>播放</button><button id="reset" class="button secondary compact" disabled>重置</button><label class="timeline"><span id="time-label">等待选择方案</span><input id="timeline" aria-label="施工模拟进度" type="range" min="0" max="100" value="0" disabled></label><label class="speed-label">速度<select id="speed" disabled><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label></div></article><aside class="panel"><div class="panel-title"><h3>方案分析</h3><span class="small-label">INSIGHTS</span></div><dl class="insights"><div><dt>已选方案</dt><dd id="analysis-name">—</dd></div><div><dt>计划工期</dt><dd id="analysis-duration">—</dd></div><div><dt>演示进度</dt><dd id="analysis-progress">—</dd></div></dl><div class="analysis-placeholder"><strong>待扩展分析</strong><ul><li>施工任务甘特图</li><li>资源与空间占用分析</li><li>计划与实际进度对比</li><li>空间冲突检测与报告导出</li></ul></div><p class="panel-note">当前为基础页面。示例动画仅演示时间轴控制，真实模型与计划计算将在后续接入。</p></aside></div><div id="gantt-container" class="future-slot"><span>进度计划 / 甘特图</span><p>预留任务进度图表容器</p><span class="small-label">PLANNED</span></div></section>
-</main><footer class="footer wrapper"><a class="brand" href="#hero"><span class="brand-icon">B</span><span>BIM / CONSTRUCTION</span></a><p>基于BIM模型的施工方案生成与可视化</p><a href="#hero">返回顶部 ↑</a></footer><div id="notification" class="notification" role="status" hidden></div>
-</body></html>
+<html lang="en">
+  <head>
+    <!-- Page metadata, styles, and application scripts -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A workspace for BIM data preparation, construction plan selection, and visual analysis.">
+    <title>BIM Construction Planning &amp; Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/bim-data.css">
+    <link rel="stylesheet" href="css/planning.css">
+    <link rel="stylesheet" href="css/visualization.css">
+    <script defer src="js/config.js"></script>
+    <script defer src="js/services/api.js"></script>
+    <script defer src="js/modules/bim-data.js"></script>
+    <script defer src="js/modules/planning.js"></script>
+    <script defer src="js/modules/visualization.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to main content</a>
+    <!-- Site title and primary navigation -->
+    <header class="header">
+      <a class="brand" href="#hero" aria-label="BIM Construction Planning and Visualization, back to top">
+        <span class="brand-icon">B</span>
+        <span class="brand-title">BIM Construction Planning &amp; Visualization</span>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="navigation" aria-label="Open menu">☰</button>
+      <nav id="navigation" aria-label="Module navigation">
+        <a href="#bim-data">BIM Data</a>
+        <a href="#planning">Plan Selection</a>
+        <a href="#visualization">Visual Analysis</a>
+      </nav>
+      <span class="version">
+        <i></i>
+        Framework v1.0
+      </span>
+    </header>
+    <main id="main">
+      <!-- Project overview and conceptual model -->
+      <section id="hero" class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">BIM-BASED CONSTRUCTION PLANNING</p>
+          <h1>
+            From BIM Models
+            <br>
+            to Construction
+            <br>
+            <span>Plans &amp; Insights</span>
+          </h1>
+          <p class="hero-description">
+            Turn model data into clear construction decisions.
+            <br>
+            Explore data preparation, plan selection, and process simulation in one workspace.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#bim-data">
+              Explore Workspace
+              <span>↗</span>
+            </a>
+            <a class="text-link" href="#modules">View Modules ↓</a>
+          </div>
+          <div class="hero-meta">
+            <span>01 DATA PREPARATION</span>
+            <span>02 PLAN SELECTION</span>
+            <span>03 VISUAL ANALYSIS</span>
+          </div>
+        </div>
+        <div class="hero-model">
+          <div class="model-caption">
+            <span>CONSTRUCTION MODEL</span>
+            <span>Concept model / not BIM data</span>
+          </div>
+          <svg class="building" viewBox="0 0 600 460" role="img" aria-label="Conceptual axonometric building structure">
+            <defs>
+              <pattern id="grid" width="40" height="24" patternUnits="userSpaceOnUse" patternTransform="skewY(-25)">
+                <path d="M40 0H0V24" fill="none" stroke="#52636f" stroke-width=".4"/>
+              </pattern>
+            </defs>
+            <path d="M20 320L310 170 580 315 290 460Z" fill="url(#grid)"/>
+            <g fill="none" stroke="#71828c" stroke-width="1">
+              <path d="M110 330L295 430 498 321M110 330V160L310 55 498 155V321M310 55V225M110 160L295 260 498 155M295 260V430"/>
+            </g>
+            <g id="hero-slabs"></g>
+            <path d="M310 35V15M300 25H320M90 348H70M80 338V358" stroke="#e7515c"/>
+            <text x="399" y="405" fill="#9aaab5" font-size="11" letter-spacing="2">
+              STRUCTURE / 04 LEVELS
+            </text>
+          </svg>
+          <div class="model-foot">
+            <span>
+              <i class="dot"></i>
+              Model · Plan · Process
+            </span>
+            <span>Concept illustration</span>
+          </div>
+        </div>
+      </section>
+      <!-- Links to the three workspace modules -->
+      <section id="modules" class="module-directory wrapper">
+        <div class="section-top">
+          <p class="eyebrow dark">WORKSPACE DIRECTORY</p>
+          <p class="muted">Follow the project workflow</p>
+        </div>
+        <div class="directory-grid">
+          <a href="#bim-data">
+            <span class="step">01</span>
+            <h2>BIM Data Preparation</h2>
+            <p>Model import / element extraction / task mapping</p>
+            <span class="arrow">↗</span>
+          </a>
+          <a href="#planning">
+            <span class="step">02</span>
+            <h2>Construction Plan Selection</h2>
+            <p>Constraints / plan generation / comparison</p>
+            <span class="arrow">↗</span>
+          </a>
+          <a href="#visualization">
+            <span class="step">03</span>
+            <h2>Visual Plan Analysis</h2>
+            <p>Timeline / animation / insights</p>
+            <span class="arrow">↗</span>
+          </a>
+        </div>
+      </section>
+      <!-- Module 1: BIM file input and construction data preview -->
+      <section id="bim-data" class="workspace-section wrapper">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow dark">01 / DATA PREPARATION</p>
+            <h2>BIM Data Preparation</h2>
+            <p>Organize model elements into a foundation for construction tasks.</p>
+          </div>
+          <span class="badge">Parser pending</span>
+        </div>
+        <div class="data-layout">
+          <article class="panel">
+            <div class="panel-title">
+              <h3>Model File</h3>
+              <span class="small-label">INPUT</span>
+            </div>
+            <label class="upload-box" for="model-file">
+              <span class="upload-icon">↑</span>
+              <strong>Select a BIM model file</strong>
+              <span>IFC input placeholder · file details only</span>
+              <span class="button secondary">Browse Files</span>
+              <input id="model-file" type="file" accept=".ifc" aria-describedby="file-status">
+            </label>
+            <p id="file-status" class="status" role="status">No file selected</p>
+            <div class="field-grid">
+              <label>
+                Group Elements
+                <select id="grouping">
+                  <option value="storey">By Floor</option>
+                  <option value="zone">By Construction Zone</option>
+                  <option value="type">By Element Type</option>
+                </select>
+              </label>
+              <label>
+                Quantity Unit
+                <select id="quantity-unit">
+                  <option value="m3">Volume · m³</option>
+                  <option value="m2">Area · m²</option>
+                  <option value="count">Count · items</option>
+                </select>
+              </label>
+            </div>
+            <button class="button disabled-action" disabled title="Requires an IFC parser or backend service">Parse &amp; Convert Data (Coming Soon)</button>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <h3>Construction Data Preview</h3>
+              <span class="small-label">OUTPUT</span>
+            </div>
+            <div class="data-stats">
+              <div>
+                <span>Elements</span>
+                <strong>—</strong>
+              </div>
+              <div>
+                <span>Zones</span>
+                <strong>—</strong>
+              </div>
+              <div>
+                <span>Tasks</span>
+                <strong>—</strong>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Element ID</th>
+                    <th>Floor / Zone</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Construction Task</th>
+                  </tr>
+                </thead>
+                <tbody id="construction-data-body">
+                  <tr>
+                    <td colspan="5">
+                      <div class="empty-state">
+                        <span>▧</span>
+                        <strong>Awaiting Construction Data</strong>
+                        <p>Parsed element properties and task mappings will appear here.</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel-note">
+              Planned: property validation, quantity totals, task links, and data export.
+            </div>
+          </article>
+        </div>
+      </section>
+      <!-- Module 2: plan parameters and demo plan comparison -->
+      <section id="planning" class="workspace-section wrapper">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow dark">02 / PLAN SELECTION</p>
+            <h2>Construction Plan Selection</h2>
+            <p>Set constraints, compare options, and choose a construction plan.</p>
+          </div>
+          <span class="badge">Generator pending</span>
+        </div>
+        <div class="planning-layout">
+          <article class="panel">
+            <div class="panel-title">
+              <h3>Plan Parameters</h3>
+              <span class="small-label">CONSTRAINTS</span>
+            </div>
+            <div class="form-stack">
+              <!-- 英文日期选择器：隐藏字段保留供方案参数读取的 YYYY-MM-DD 值。 -->
+              <div class="date-selector" role="group" aria-labelledby="start-date-label">
+                <span id="start-date-label" class="date-title">Planned Start Date</span>
+                <div class="date-fields">
+                  <label>
+                    Month
+                    <select id="start-month">
+                      <option value="">Select month</option>
+                      <option value="01">January</option>
+                      <option value="02">February</option>
+                      <option value="03">March</option>
+                      <option value="04">April</option>
+                      <option value="05">May</option>
+                      <option value="06">June</option>
+                      <option value="07">July</option>
+                      <option value="08">August</option>
+                      <option value="09">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </label>
+                  <label>
+                    Day
+                    <select id="start-day">
+                      <option value="">Day</option>
+                    </select>
+                  </label>
+                  <label>
+                    Year
+                    <input id="start-year" type="number" min="1900" max="2100" step="1" inputmode="numeric" placeholder="YYYY">
+                  </label>
+                </div>
+                <input id="start-date" type="hidden">
+              </div>
+              <label>
+                Target Duration (Days)
+                <input id="target-days" type="number" min="1" step="1" placeholder="e.g. 120">
+              </label>
+              <label>
+                Primary Goal
+                <select id="priority">
+                  <option value="balanced">Balanced</option>
+                  <option value="duration">Shortest Duration</option>
+                  <option value="cost">Lowest Cost</option>
+                  <option value="space">Space Efficiency</option>
+                </select>
+              </label>
+              <label>
+                Additional Constraints
+                <textarea id="constraints" rows="3" placeholder="e.g. phased work, equipment limits">
+                </textarea>
+              </label>
+            </div>
+            <button class="button disabled-action" disabled>Generate Plans (Coming Soon)</button>
+            <p class="panel-note">Plan generation will support rules, optimization, or a backend model.</p>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <h3>Compare Plans</h3>
+              <button id="load-demo" class="button secondary compact">Load Demo Plans</button>
+            </div>
+            <p class="muted">Demo plans illustrate selection and animation only. They are not valid for project decisions.</p>
+            <div id="scheme-list" class="scheme-list">
+              <div class="empty-state">
+                <span>▤</span>
+                <strong>No Plans Yet</strong>
+                <p>Duration, cost, and resource metrics will appear after plan generation.</p>
+              </div>
+            </div>
+            <div class="selection-summary">
+              <span id="selected-scheme" role="status">No plan selected</span>
+              <a href="#visualization" class="text-link">View Visualization ↓</a>
+            </div>
+          </article>
+        </div>
+      </section>
+      <!-- Module 3: process viewer, timeline, and analysis -->
+      <section id="visualization" class="workspace-section wrapper">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow dark">03 / VISUAL ANALYSIS</p>
+            <h2>Visual Plan Analysis</h2>
+            <p>Explore model status and planned progress on one timeline.</p>
+          </div>
+          <span class="badge">Renderer pending</span>
+        </div>
+        <div class="viewer-layout">
+          <article class="panel viewer-panel">
+            <div class="panel-title">
+              <h3>Construction Process Viewer</h3>
+              <span id="viewer-label" class="small-label">No plan selected</span>
+            </div>
+            <div id="model-viewer" class="model-viewer" aria-label="Construction model visualization">
+              <div id="viewer-empty" class="viewer-empty">
+                <span>◇</span>
+                <h3>Construction Animation</h3>
+                <p>3D model loading and element status controls are planned.</p>
+              </div>
+              <!-- Demo floors are shown after a plan is selected. -->
+              <div id="demo-building" class="demo-building" hidden>
+                <span class="demo-stamp">UI demo · not a real model</span>
+                <div class="demo-floor" data-floor="4">
+                  04 / LEVEL FOUR
+                </div>
+                <div class="demo-floor" data-floor="3">
+                  03 / LEVEL THREE
+                </div>
+                <div class="demo-floor" data-floor="2">
+                  02 / LEVEL TWO
+                </div>
+                <div class="demo-floor" data-floor="1">
+                  01 / LEVEL ONE
+                </div>
+              </div>
+              <div class="viewer-legend">
+                <span>
+                  <i class="legend-dot pending"></i>
+                  Pending
+                </span>
+                <span>
+                  <i class="legend-dot active"></i>
+                  In Progress
+                </span>
+                <span>
+                  <i class="legend-dot done"></i>
+                  Complete
+                </span>
+              </div>
+            </div>
+            <!-- Timeline controls are enabled by the visualization module. -->
+            <div class="playback-controls">
+              <button id="play" class="button primary compact" disabled>Play</button>
+              <button id="reset" class="button secondary compact" disabled>Reset</button>
+              <label class="timeline">
+                <span id="time-label">Select a plan to begin</span>
+                <input id="timeline" aria-label="Construction simulation progress" type="range" min="0" max="100" value="0" disabled>
+              </label>
+              <label class="speed-label">
+                Speed
+                <select id="speed" disabled>
+                  <option value="1">1×</option>
+                  <option value="2">2×</option>
+                  <option value="4">4×</option>
+                </select>
+              </label>
+            </div>
+          </article>
+          <aside class="panel">
+            <div class="panel-title">
+              <h3>Plan Analysis</h3>
+              <span class="small-label">INSIGHTS</span>
+            </div>
+            <dl class="insights">
+              <div>
+                <dt>Selected Plan</dt>
+                <dd id="analysis-name">—</dd>
+              </div>
+              <div>
+                <dt>Planned Duration</dt>
+                <dd id="analysis-duration">—</dd>
+              </div>
+              <div>
+                <dt>Demo Progress</dt>
+                <dd id="analysis-progress">—</dd>
+              </div>
+            </dl>
+            <div class="analysis-placeholder">
+              <strong>Future Analysis</strong>
+              <ul>
+                <li>Construction task Gantt chart</li>
+                <li>Resource and space usage</li>
+                <li>Planned vs. actual progress</li>
+                <li>Clash detection and report export</li>
+              </ul>
+            </div>
+            <p class="panel-note">This is a prototype. The animation only demonstrates timeline controls; real models and planning calculations are planned.</p>
+          </aside>
+        </div>
+        <!-- Placeholder for a future task schedule chart. -->
+        <div id="gantt-container" class="future-slot">
+          <span>Schedule / Gantt Chart</span>
+          <p>Task schedule chart placeholder</p>
+          <span class="small-label">PLANNED</span>
+        </div>
+      </section>
+    </main>
+    <!-- Footer and transient status message -->
+    <footer class="footer wrapper">
+      <a class="brand" href="#hero">
+        <span class="brand-icon">B</span>
+        <span>BIM / CONSTRUCTION</span>
+      </a>
+      <p>BIM Construction Planning &amp; Visualization</p>
+      <a href="#hero">Back to Top ↑</a>
+    </footer>
+    <div id="notification" class="notification" role="status" hidden></div>
+  </body>
+</html>
